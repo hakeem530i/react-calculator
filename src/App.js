@@ -1,28 +1,76 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      screen: 0
+      screen: "",
+      stack: 0
     };
   }
 
-  handleChange() {}
-  handleNumClick(num) {
-    this.setState({ screen: num });
+  handleChange() {
+    alert("Changed");
+  }
+  handleButtonClick(key) {
+    // this.setState({ screen: num });
     //alert(num);
+
+    //Detect operator
+    switch (key) {
+      case "x":
+        //Save the items to the stack
+        this.setState({ stack: `${this.state.screen}*` },()=>{
+          console.log("Stack", `${this.state.stack}`);
+        });
+        
+        break;
+      case "-":
+        console.log("Subtract");
+        break;
+      case "/":
+        console.log("Divide");
+        break;
+      case "C":
+        this.setState({ screen: "" });
+        break;
+      default:
+        this.setState(prevState => {
+          return { screen: `${prevState.screen}` + `${key}` };
+        });
+        break;
+    }
   }
   buttonRender() {
-    let numbers = [7, 8, 9, 4, 5, 6, 1, 2, 3, 0];
+    let numbers = [
+      "AC",
+      "+/-",
+      "%",
+      "÷",
+      7,
+      8,
+      9,
+      "x",
+      4,
+      5,
+      6,
+      "+",
+      1,
+      2,
+      3,
+      "-",
+      "neg",
+      0,
+      ".",
+      "="
+    ];
     let buttonList = numbers.map(num => {
       return (
         <button
           key={num}
-          onClick={() => this.handleNumClick(num)}
-          className="w-33 f2 bg-animate hover-bg-black hover-white bg-transparent bn"
+          onClick={() => this.handleButtonClick(num)}
+          className="w-25 vh-20 calc-button f2 bg-animate hover-bg-black hover-white bg-transparent bn"
         >
           {num}
         </button>
@@ -33,13 +81,17 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div id="calc-container" className="container center pa2 vh-80">
+        <div id="calc-container" className="center">
           <input
-            className="w-100 f1 tr"
+            id="calc-display"
+            className="w-100 f1 tr h-25"
             type="text"
-            value={this.state.screen}
+            onChange={this.handleChange}
+            value={this.state.screen === "" ? "0" : this.state.screen}
           />
-          {this.buttonRender()}
+          <div className="vh-75">
+            {this.buttonRender()} 
+          </div>
         </div>
       </div>
     );

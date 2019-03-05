@@ -1,9 +1,21 @@
 body {
   background: #bfd4f2;
 }
+.vh-20 {
+  height: 20vh;
+}
 .container {
   max-width: 360px;
 }
 #calc-container {
   background: #fff;
+}
+#calc-display {
+  background-color: #858593;
+  color: #fff;
+  border: none;
+}
+
+.calc-button {
+  background-color: #e0e0e0;
 }
